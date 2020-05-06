@@ -1,10 +1,12 @@
-const initialState = {}
+const initialState = {};
 
-export const userReducer = async (state = initialState, action) => {
+export const userReducer = (state = initialState, action) => {
   const {type, payload} = action;
   switch (type) {
     case 'LOGIN':
-      return {data:payload}
+      return payload;
+    case 'AUTH':
+      return payload;
     default:
       return state;
   }

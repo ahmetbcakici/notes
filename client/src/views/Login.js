@@ -1,46 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {login} from '../redux/actions';
+import {auth} from '../redux/actions';
+import LoginForm from '../components/LoginForm';
 
-function Login({login,user}) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+function Login({user}) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const formSubmit = (e) => {
-    e.preventDefault();
-    login({username,password})
-  };
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
 
-  return (
-    <div style={{textAlign: 'center'}}>
-        <h1 onClick={() => console.log(user)}>test</h1>
-      <form onSubmit={formSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={({target}) => setUsername(target.value)}
-        />
-        <br />
-        <input
-          type="text"
-          value={password}
-          onChange={({target}) => setPassword(target.value)}
-        />
-        <br />
-        <input type="submit" value="SUBMIT" />
-      </form>
-    </div>
-  );
+    if (!jwt) return console.log('there is no token');
+
+    setIsLoggedIn(true);
+    auth(jwt);
+  }, [user]);
+
+  if (isLoggedIn) return <Redirect to="/app" />;
+  return <LoginForm />;
 }
 
 const mapStateToProps = (state) => ({
-    user:state.userReducer
-})
+  user: state.userReducer,
+});
 
-const mapDispatchToProps = {
-  login,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
-    
+export default connect(mapStateToProps)(Login);
