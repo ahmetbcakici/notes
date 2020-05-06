@@ -14,25 +14,15 @@ router.get('/', (req, res) => {
 // POST request for /register endpoint
 router.post('/register', async (req, res) => {
   // get required fields to register from request body which has sent by client
-  const {
-    name,
-    surname,
-    username,
-    password,
-    phoneNumber,
-    emailAddress,
-  } = req.body;
+  const {username, password, emailAddress} = req.body;
 
   // hash variable represents that hashed form for our plain password
   const hash = await bcrypt.hash(password, 10);
 
   // generate new user on db
   const userGenerated = await User.create({
-    name,
-    surname,
     username,
     password: hash,
-    phoneNumber,
     emailAddress,
   });
 
@@ -45,12 +35,76 @@ router.post('/login', async (req, res) => {
 
   // find user by username came from client
   const doc = await User.findOne({username});
+  if (!doc) return res.send("no user find"); // there is no registered user with the username
 
   // compare operation between hashed password and plain text password came from client
   const match = await bcrypt.compare(password, doc.password);
 
+  // password incorrect
+  if (!match) {
+    console.log("incor")
+    return res.send("incor")
+  }
+
   // if matches login success
-  if (match) return res.send(doc._id);
+  if (match) return res.send(doc);
+});
+
+// GET request for /note endpoint
+router.get('/note', async (req, res) => {
+  const {userID, noteID} = req.body;
+
+  const doc = await User.findById(userID);
+
+  const note = doc.notes.find((note) => note._id == noteID && note);
+
+  res.send(note);
+});
+
+// POST request for /note endpoint
+router.post('/note', async (req, res) => {
+  const {userID, title, content} = req.body;
+
+  const doc = await User.findById(userID);
+
+  doc.notes.push({
+    title,
+    content,
+  });
+
+  doc.save();
+});
+
+// PATCH request for /note endpoint
+router.patch('/note', async (req, res) => {
+  const {userID, noteID, title, content} = req.body;
+
+  const doc = await User.findById(userID);
+
+  const note = doc.notes.find((note) => note._id == noteID && note);
+
+  // update if there is new title or content data
+  note.title = title ? title : note.title;
+  note.content = content ? content : note.content;
+
+  doc.save();
+
+  res.send(note);
+});
+
+// DELETE request for /note endpoint
+router.delete('/note', async (req, res) => {
+  const {userID, noteID} = req.body;
+
+  const doc = await User.findById(userID);
+
+  const note = doc.notes.find((note) => note._id == noteID && note);
+
+  note.remove();
+
+  doc.save();
+
+  res.send(note);
 });
 
 export default router;
