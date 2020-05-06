@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export default function NoteArea() {
-    return (
-        <div>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
-        </div>
-    )
+function NoteArea() {
+  return (
+    <div>
+      <textarea name="" id="" cols="30" rows="10"></textarea>
+    </div>
+  );
 }
+
+export default NoteArea;

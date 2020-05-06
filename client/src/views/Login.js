@@ -1,0 +1,46 @@
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+
+import {login} from '../redux/actions';
+
+function Login({login,user}) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const formSubmit = (e) => {
+    e.preventDefault();
+    login({username,password})
+  };
+
+  return (
+    <div style={{textAlign: 'center'}}>
+        <h1 onClick={() => console.log(user)}>test</h1>
+      <form onSubmit={formSubmit}>
+        <input
+          type="text"
+          value={username}
+          onChange={({target}) => setUsername(target.value)}
+        />
+        <br />
+        <input
+          type="text"
+          value={password}
+          onChange={({target}) => setPassword(target.value)}
+        />
+        <br />
+        <input type="submit" value="SUBMIT" />
+      </form>
+    </div>
+  );
+}
+
+const mapStateToProps = (state) => ({
+    user:state.userReducer
+})
+
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+    
