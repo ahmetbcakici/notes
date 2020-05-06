@@ -1,6 +1,7 @@
 /* Packages I used */
 import express from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 /* MongoDB Models */
 import User from '../models/user/user';
@@ -35,19 +36,39 @@ router.post('/login', async (req, res) => {
 
   // find user by username came from client
   const doc = await User.findOne({username});
-  if (!doc) return res.send("no user find"); // there is no registered user with the username
+  if (!doc) return res.send('no user find'); // there is no registered user with the username
 
   // compare operation between hashed password and plain text password came from client
   const match = await bcrypt.compare(password, doc.password);
 
   // password incorrect
-  if (!match) {
-    console.log("incor")
-    return res.send("incor")
-  }
+  if (!match) return res.send('incorrect');
 
-  // if matches login success
-  if (match) return res.send(doc);
+  // login success
+  if (match) {
+    //return res.send(doc);
+    const token = await jwt.sign({user: doc}, process.env.JWT_SECRET_KEY);
+    return res.json({doc, token});
+  }
+});
+
+// POST request for /auth endpoint
+router.post('/auth', async(req, res) => {
+  const {token} = req.body;
+  //console.log(token)
+  const verifyToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+  console.log("--------------------------------------")
+  console.log(verifyToken)
+  console.log("--------------------------------------")
+  /* jwt.verify(token, process.env.JWT_SECRET_KEY,(err,result) => {
+    if(err) console.log("err")
+    else console.log(result)
+  }) */
+  //console.log(verifyToken)
+  //console.log(verifyToken)
+  //if (!verifyToken) return res.send('yok');
+//
+  res.send(verifyToken);
 });
 
 // GET request for /note endpoint
