@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const login = (credentials) => {
   return async (dispatch) => {
+    console.log("login action")
     try {
       const {data} = await axios.post(
         'http://localhost:3333/login',
@@ -20,11 +21,17 @@ export const auth = (token) => {
   return async (dispatch) => {
     try {
       const {data} = await axios.post('http://localhost:3333/auth', {token});
-      dispatch({type: 'AUTH', payload: data.user});
-      console.log('try');
+      dispatch({type: 'AUTH', payload: data});
     } catch ({response}) {
       const {data /*, status */} = response;
       dispatch({type: 'AUTH', payload: data});
     }
+  };
+};
+
+export const getData = (userID) => {
+  return async (dispatch) => {
+    const {data} = await axios.get(`http://localhost:3333/user/${userID}`);
+    dispatch({type: 'GET_DATA', payload: data});
   };
 };

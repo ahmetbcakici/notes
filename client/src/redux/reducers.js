@@ -7,6 +7,8 @@ export const userReducer = (state = initialState, action) => {
       return payload;
     case 'AUTH':
       return payload;
+    case 'GET_DATA':
+      return payload;
     default:
       return state;
   }
