@@ -55,20 +55,13 @@ router.post('/login', async (req, res) => {
 // POST request for /auth endpoint
 router.post('/auth', async (req, res) => {
   const {token} = req.body;
-  //console.log(token)
-  const verifyToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-  console.log('--------------------------------------');
-  console.log(verifyToken);
-  console.log('--------------------------------------');
-  /* jwt.verify(token, process.env.JWT_SECRET_KEY,(err,result) => {
-    if(err) console.log("err")
-    else console.log(result)
-  }) */
-  //console.log(verifyToken)
-  //console.log(verifyToken)
-  //if (!verifyToken) return res.send('yok');
-  //
-  res.send(verifyToken);
+
+  try {
+    const verifyToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+    return res.send(verifyToken);
+  } catch (error) {
+    return res.status(401).send('Invalid Token!');
+  }
 });
 
 // GET request for /note endpoint
