@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {login} from '../redux/actions';
 
-function LoginForm({login}) {
+function LoginForm({login,loginState}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,27 +14,33 @@ function LoginForm({login}) {
 
   return (
     <div style={{textAlign: 'center'}}>
+      <br/>
       <form onSubmit={formSubmit}>
         <input
-          type="text"
+          type='text'
           value={username}
           onChange={({target}) => setUsername(target.value)}
         />
         <br />
         <input
-          type="text"
+          type='text'
           value={password}
           onChange={({target}) => setPassword(target.value)}
         />
         <br />
-        <input type="submit" value="SUBMIT" />
+        <input type='submit' value='SUBMIT' />
       </form>
+      {typeof loginState !== 'object' && <h1>{loginState}</h1>}
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+loginState:state.userReducer
+})
 
 const mapDispatchToProps = {
   login,
 };
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
