@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
-import {getData} from '../redux/actions';
+import {getData,handleSelectedNote} from '../redux/actions';
 import NewNote from './NewNote';
 
-function Sidebar({getData, user}) {
+function Sidebar({getData,handleSelectedNote, user}) {
   const [noteName, setNoteName] = useState('');
 
   const deleteNote = async (noteID) => {
@@ -22,7 +22,7 @@ function Sidebar({getData, user}) {
     await axios.patch('http://localhost:3333/note', {
       userID: user._id,
       noteID,
-      title:noteName
+      title: noteName,
     });
     getData(user._id);
   };
@@ -32,10 +32,10 @@ function Sidebar({getData, user}) {
       {user.notes && (
         <ul>
           {user.notes.map((note) => (
-            <li key={note._id} onClick={() => console.log(note.content)}>
+            <li key={note._id} onClick={() => handleSelectedNote(note._id,user._id)}>
               <span>{note.title}</span>&emsp;
               <span style={{color: 'red'}} onClick={() => deleteNote(note._id)}>
-                &times;
+                &times;&times;&times;
               </span>
               <input
                 type="text"
@@ -43,7 +43,7 @@ function Sidebar({getData, user}) {
                 id=""
                 onKeyUp={({keyCode, target}) => {
                   setNoteName(target.value);
-                  if (keyCode === 13) updateNote(note._id)
+                  if (keyCode === 13) updateNote(note._id);
                 }}
               />
             </li>
@@ -62,6 +62,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getData,
+  handleSelectedNote
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

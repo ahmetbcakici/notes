@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+/* userReducer Actions */
+
 export const login = (credentials) => {
   return async (dispatch) => {
-    console.log("login action")
+    console.log('login action');
     try {
       const {data} = await axios.post(
         'http://localhost:3333/login',
@@ -33,5 +35,16 @@ export const getData = (userID) => {
   return async (dispatch) => {
     const {data} = await axios.get(`http://localhost:3333/user/${userID}`);
     dispatch({type: 'GET_DATA', payload: data});
+  };
+};
+
+/* noteReducer Actions */
+
+export const handleSelectedNote = (noteID, userID) => {
+  return async (dispatch) => {
+    const {data} = await axios.get('http://localhost:3333/note', {
+      params: {noteID, userID},
+    });
+    dispatch({type: 'NOTE_SELECTED', payload: data});
   };
 };

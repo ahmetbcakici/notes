@@ -1,11 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-function NoteArea() {
+function NoteArea({selectedNote}) {
   return (
     <div>
-      <textarea cols='30' rows='10'></textarea>
+      <p>{selectedNote.title}</p>
+      <textarea cols='30' rows='10'>{selectedNote.content}</textarea>
     </div>
   );
 }
 
-export default NoteArea;
+const mapStateToProps = state => ({
+  selectedNote:state.noteReducer
+})
+
+export default connect(mapStateToProps)(NoteArea);

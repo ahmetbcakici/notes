@@ -13,3 +13,13 @@ export const userReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export const noteReducer = (state = {title:'Select a note'}, action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case 'NOTE_SELECTED':
+      return payload;
+    default:
+      return state;
+  }
+};
