@@ -1,11 +1,17 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-function Navbar() {
+function Navbar({user}) {
   return (
     <nav style={{textAlign: 'center'}}>
-      <p>Navbar</p>
+      <p>Navbar user:{user.username}</p>
+      <a href='/' onClick={() => localStorage.removeItem('jwt')}>s</a>
     </nav>
   );
 }
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  user: state.userReducer,
+});
+
+export default connect(mapStateToProps)(Navbar);
