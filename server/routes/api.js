@@ -58,10 +58,21 @@ router.post('/auth', async (req, res) => {
 
   try {
     const verifyToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-    return res.send(verifyToken);
+
+    const doc = await User.findById(verifyToken.user._id);
+
+    return res.send(doc);
   } catch (error) {
     return res.status(401).send('Invalid Token!');
   }
+});
+
+router.get('/user/:id', async (req, res) => {
+  const userID = req.params.id;
+
+  const doc = await User.findById(userID);
+
+  res.send(doc);
 });
 
 // GET request for /note endpoint
@@ -77,16 +88,17 @@ router.get('/note', async (req, res) => {
 
 // POST request for /note endpoint
 router.post('/note', async (req, res) => {
-  const {userID, title, content} = req.body;
+  const {userID, title} = req.body;
 
   const doc = await User.findById(userID);
 
   doc.notes.push({
     title,
-    content,
   });
 
   doc.save();
+
+  res.send();
 });
 
 // PATCH request for /note endpoint
@@ -118,7 +130,7 @@ router.delete('/note', async (req, res) => {
 
   doc.save();
 
-  res.send(note);
+  res.send();
 });
 
 export default router;
