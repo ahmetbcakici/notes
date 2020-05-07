@@ -36,13 +36,13 @@ router.post('/login', async (req, res) => {
 
   // find user by username came from client
   const doc = await User.findOne({username});
-  if (!doc) return res.send('no user find'); // there is no registered user with the username
+  if (!doc) return res.status(400).send('User not found'); // there is no registered user with the username
 
   // compare operation between hashed password and plain text password came from client
   const match = await bcrypt.compare(password, doc.password);
 
   // password incorrect
-  if (!match) return res.send('incorrect');
+  if (!match) return res.status(401).send('Password is incorrect!');
 
   // login success
   if (match) {
@@ -53,13 +53,13 @@ router.post('/login', async (req, res) => {
 });
 
 // POST request for /auth endpoint
-router.post('/auth', async(req, res) => {
+router.post('/auth', async (req, res) => {
   const {token} = req.body;
   //console.log(token)
   const verifyToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
-  console.log("--------------------------------------")
-  console.log(verifyToken)
-  console.log("--------------------------------------")
+  console.log('--------------------------------------');
+  console.log(verifyToken);
+  console.log('--------------------------------------');
   /* jwt.verify(token, process.env.JWT_SECRET_KEY,(err,result) => {
     if(err) console.log("err")
     else console.log(result)
@@ -67,7 +67,7 @@ router.post('/auth', async(req, res) => {
   //console.log(verifyToken)
   //console.log(verifyToken)
   //if (!verifyToken) return res.send('yok');
-//
+  //
   res.send(verifyToken);
 });
 
