@@ -16,7 +16,7 @@ function Login({auth,user}) {
     auth(jwt);
   }, [auth]);
 
-  if (user.username) return <Redirect to="/app" />;
+  if (user.username) return <Redirect to='/app' />;
   return <LoginForm />;
 }
 
