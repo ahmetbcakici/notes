@@ -30,13 +30,7 @@ function Sidebar({
               key={note._id}
               onClick={() => handleSelectedNote(note._id, user._id)}
             >
-              <span>{note.title}</span>&emsp;
-              <span
-                style={{color: 'red'}}
-                onClick={() => deleteNote(note._id, user._id)}
-              >
-                &times;&times;&times;
-              </span>
+              <span>{note.title}</span>&nbsp;
               <input
                 type="text"
                 name=""
@@ -45,7 +39,13 @@ function Sidebar({
                   if (keyCode === 13)
                     updateNote(note._id, user._id, target.value);
                 }}
-              />
+              />&nbsp;
+              <span
+                style={{color: 'red'}}
+                onClick={() => deleteNote(note._id, user._id)}
+              >
+                &times;DELETE&times;
+              </span>
             </li>
           ))}
         </ul>

@@ -19,10 +19,12 @@ function Main({auth, user}) {
 
   if (user.username) return <Redirect to="/app" />;
   return (
-    <div>
+    <div style={{textAlign: 'center'}}>
       {isRegisterForm ? <RegisterForm /> : <LoginForm />}
-
-      <a href="#" onClick={() => setIsRegisterForm(!isRegisterForm)}>CHANGE</a>
+      <br />
+      <button onClick={() => setIsRegisterForm(!isRegisterForm)}>
+        FORM CHANGE
+      </button>
     </div>
   );
 }

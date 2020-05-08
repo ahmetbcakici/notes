@@ -5,7 +5,7 @@ function Navbar({user}) {
   return (
     <nav style={{textAlign: 'center'}}>
       <p>Navbar user:{user.username}</p>
-      <a href='/' onClick={() => localStorage.removeItem('jwt')}>s</a>
+      <a href='/' onClick={() => localStorage.removeItem('jwt')}>logout</a>
     </nav>
   );
 }

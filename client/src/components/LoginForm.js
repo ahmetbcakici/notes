@@ -18,17 +18,19 @@ function LoginForm({login,loginState}) {
       <form onSubmit={formSubmit}>
         <input
           type='text'
+          placeholder='username'
           value={username}
           onChange={({target}) => setUsername(target.value)}
         />
         <br />
         <input
-          type='text'
+          type='password'
+          placeholder='pass'
           value={password}
           onChange={({target}) => setPassword(target.value)}
         />
         <br />
-        <input type='submit' value='SUBMIT' />
+        <input type='submit' value='LOGIN' />
       </form>
       {typeof loginState !== 'object' && <h1>{loginState}</h1>}
     </div>
