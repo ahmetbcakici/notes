@@ -18,7 +18,6 @@ export const getNotes = (userID) => {
     const {data} = await axios.get('http://localhost:3333/note/all', {
       params: {userID},
     });
-    console.log(data);
     dispatch({type: 'GET_NOTE', payload: data});
   };
 };
@@ -42,12 +41,13 @@ export const postNote = (title, userID) => {
   };
 };
 
-export const updateNote = (noteID, userID, title) => {
+export const updateNote = (noteID, userID, title, content) => {
   return async (dispatch) => {
     const {data} = await axios.patch('http://localhost:3333/note', {
       noteID,
       userID,
       title,
+      content
     });
     dispatch({type: 'UPDATE_NOTE', payload: data});
   };
