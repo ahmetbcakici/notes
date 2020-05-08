@@ -2,21 +2,19 @@ import React, {useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {auth} from '../redux/actions';
+import {auth} from '../redux/actions/user';
 import LoginForm from '../components/LoginForm';
 
-function Login({auth,user}) {
-
+function Login({auth, user}) {
   useEffect(() => {
-    console.log('hr');
     const jwt = localStorage.getItem('jwt');
 
-    if (!jwt) return console.log('there is no token');
+    if (!jwt) return;
 
     auth(jwt);
   }, [auth]);
 
-  if (user.username) return <Redirect to='/app' />;
+  if (user.username) return <Redirect to="/app" />;
   return <LoginForm />;
 }
 

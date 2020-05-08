@@ -1,40 +1,40 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 
-import {getData,handleSelectedNote} from '../redux/actions';
+import {
+  deleteNote,
+  getNotes,
+  handleSelectedNote,
+  updateNote,
+} from '../redux/actions/note';
 import NewNote from './NewNote';
 
-function Sidebar({getData,handleSelectedNote, user}) {
-  const [noteName, setNoteName] = useState('');
-
-  const deleteNote = async (noteID) => {
-    await axios.delete('http://localhost:3333/note', {
-      data: {
-        userID: user._id,
-        noteID,
-      },
-    });
-    getData(user._id);
-  };
-
-  const updateNote = async (noteID) => {
-    await axios.patch('http://localhost:3333/note', {
-      userID: user._id,
-      noteID,
-      title: noteName,
-    });
-    getData(user._id);
-  };
+function Sidebar({
+  deleteNote,
+  getNotes,
+  handleSelectedNote,
+  notes,
+  updateNote,
+  user,
+}) {
+  useEffect(() => {
+    getNotes(user._id);
+  }, [getNotes, user]);
 
   return (
     <div>
-      {user.notes && (
+      {notes && (
         <ul>
-          {user.notes.map((note) => (
-            <li key={note._id} onClick={() => handleSelectedNote(note._id,user._id)}>
+          {notes.map((note) => (
+            <li
+              key={note._id}
+              onClick={() => handleSelectedNote(note._id, user._id)}
+            >
               <span>{note.title}</span>&emsp;
-              <span style={{color: 'red'}} onClick={() => deleteNote(note._id)}>
+              <span
+                style={{color: 'red'}}
+                onClick={() => deleteNote(note._id, user._id)}
+              >
                 &times;&times;&times;
               </span>
               <input
@@ -42,27 +42,30 @@ function Sidebar({getData,handleSelectedNote, user}) {
                 name=""
                 id=""
                 onKeyUp={({keyCode, target}) => {
-                  setNoteName(target.value);
-                  if (keyCode === 13) updateNote(note._id);
+                  if (keyCode === 13)
+                    updateNote(note._id, user._id, target.value);
                 }}
               />
             </li>
           ))}
         </ul>
       )}
-
       <NewNote />
     </div>
   );
 }
 
 const mapStateToProps = (state) => ({
+  notes: state.noteReducer,
+  selectedNote: state.selectedNoteReducer,
   user: state.userReducer,
 });
 
 const mapDispatchToProps = {
-  getData,
-  handleSelectedNote
+  deleteNote,
+  getNotes,
+  handleSelectedNote,
+  updateNote,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

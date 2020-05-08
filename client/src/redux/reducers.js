@@ -1,4 +1,5 @@
-const initialState = {};
+const initialState = [];
+/* const initialState = [{a: 1}, {b: 2}]; */
 
 export const userReducer = (state = initialState, action) => {
   const {type, payload} = action;
@@ -14,7 +15,26 @@ export const userReducer = (state = initialState, action) => {
   }
 };
 
-export const noteReducer = (state = {title:'Select a note'}, action) => {
+export const noteReducer = (state = initialState, action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case 'DELETE_NOTE':
+      return payload;
+    case 'GET_NOTE':
+      return payload;
+    case 'POST_NOTE':
+      return payload;
+    case 'UPDATE_NOTE':
+      return payload;
+    default:
+      return state;
+  }
+};
+
+export const selectedNoteReducer = (
+  state = {title: 'Select a note'},
+  action
+) => {
   const {type, payload} = action;
   switch (type) {
     case 'NOTE_SELECTED':

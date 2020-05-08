@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
-import {login} from '../redux/actions';
+import {login} from '../redux/actions/user';
 
 function LoginForm({login,loginState}) {
   const [username, setUsername] = useState('');

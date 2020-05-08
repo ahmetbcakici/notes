@@ -1,10 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
-import {noteReducer, userReducer} from './reducers';
+import {noteReducer, selectedNoteReducer, userReducer} from './reducers';
 
 const reducers = combineReducers({
   noteReducer,
+  selectedNoteReducer,
   userReducer,
 });
 

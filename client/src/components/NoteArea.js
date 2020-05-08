@@ -11,7 +11,7 @@ function NoteArea({selectedNote}) {
 }
 
 const mapStateToProps = state => ({
-  selectedNote:state.noteReducer
+  selectedNote:state.selectedNoteReducer
 })
 
 export default connect(mapStateToProps)(NoteArea);
