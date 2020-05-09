@@ -1,0 +1,10 @@
+.sidebar {
+    width: 15%;
+    display: inline-block;
+}
+
+.notearea {
+    width: 75%;
+    opacity: .8;
+    display: inline-block;
+}
