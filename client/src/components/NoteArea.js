@@ -21,11 +21,11 @@ function NoteArea({selectedNote, updateNote, user}) {
   }, [selectedNote]);
 
   const editValue = (noteContent) => {
-    setTTimeout(resetTimeout(timeout, setTimeout(saveValue, 2400)));
     setNoteContent(noteContent);
+    setTTimeout(resetTimeout(timeout, setTimeout(() => saveValue(noteContent), 1000)));
   };
 
-  const saveValue = () => {
+  const saveValue = (noteContent) => {
     setSaved(true);
     updateNote(
       selectedNote._id,
@@ -39,27 +39,20 @@ function NoteArea({selectedNote, updateNote, user}) {
   return (
     <div>
       <div id="wrapper">
-        <div id="margin">
+        {/* <div id="margin">
           Title: <input id="title" type="text" value={selectedNote.title} readOnly/>
-        </div>
+        </div> */}
         <textarea
           placeholder="Enter something funny."
           id="text"
-          name="text"
+          /* value={`${selectedNote.title}\n\n${noteContent}`} */
           value={noteContent}
           onChange={(e) => editValue(e.currentTarget.value)}
-          style={{
-            overflow: 'hidden',
-            wordWrap: 'break-word',
-            resize: 'none',
-            height: '360px',
-          }}
         ></textarea>
-        <div style={{display: saved ? '' : 'none'}}>
+        <br/>
+        <div style={{display: saved ? '' : 'none',color:'white'}}>
           <p>Saved Successfully</p>
         </div>
-
-        <br />
       </div>
     </div>
   );
