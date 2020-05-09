@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 
 import {
@@ -8,6 +8,7 @@ import {
   updateNote,
 } from '../redux/actions/note';
 import NewNote from './NewNote';
+import '../style/Sidebar.css';
 
 function Sidebar({
   deleteNote,
@@ -17,12 +18,22 @@ function Sidebar({
   updateNote,
   user,
 }) {
+  const [isOpening, setIsOpening] = useState(true);
+
+  // show first note in opening
+  useEffect(() => {
+    if (notes.length > 0 && isOpening) {
+      handleSelectedNote(notes[0]._id, user._id);
+      setIsOpening(false);
+    }
+  }, [notes]);
+
   useEffect(() => {
     getNotes(user._id);
   }, [getNotes, user]);
 
   return (
-    <div>
+    <div id="sidebar">
       {notes && (
         <ul>
           {notes.map((note) => (
@@ -31,7 +42,7 @@ function Sidebar({
               onClick={() => handleSelectedNote(note._id, user._id)}
             >
               <span>{note.title}</span>&nbsp;
-              <input
+              {/*   <input
                 type="text"
                 name=""
                 id=""
@@ -39,12 +50,13 @@ function Sidebar({
                   if (keyCode === 13)
                     updateNote(note._id, user._id, target.value);
                 }}
-              />&nbsp;
+              />&nbsp; */}
+              <span style={{color: 'red', textAlign: 'right'}}>UPDT</span>
               <span
-                style={{color: 'red'}}
+                style={{color: 'red', textAlign: 'right'}}
                 onClick={() => deleteNote(note._id, user._id)}
               >
-                &times;DELETE&times;
+                &times;
               </span>
             </li>
           ))}
