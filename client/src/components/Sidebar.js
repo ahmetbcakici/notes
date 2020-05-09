@@ -19,6 +19,7 @@ function Sidebar({
   user,
 }) {
   const [isOpening, setIsOpening] = useState(true);
+  const [isTitleEditing, setIsTitleEditing] = useState('');
 
   // show first note in opening
   useEffect(() => {
@@ -41,21 +42,24 @@ function Sidebar({
               key={note._id}
               onClick={() => handleSelectedNote(note._id, user._id)}
             >
-              <span>{note.title}</span>&nbsp;
-              {/*   <input
-                type="text"
-                name=""
-                id=""
-                onKeyUp={({keyCode, target}) => {
-                  if (keyCode === 13)
-                    updateNote(note._id, user._id, target.value);
-                }}
-              />&nbsp; */}
-              <span style={{color: 'red', textAlign: 'right'}}>UPDT</span>
-              <span
-                style={{color: 'red', textAlign: 'right'}}
-                onClick={() => deleteNote(note._id, user._id)}
-              >
+              {!isTitleEditing && <span>{note.title}</span>}
+              {isTitleEditing && (
+                <input
+                  type="text"
+                  placeholder={note.title}
+                  onKeyUp={({keyCode, target}) => {
+                    //setNewTitle(target.value);
+                    if (keyCode === 13){
+                      updateNote(note._id, user._id, target.value);
+                      setIsTitleEditing(false)
+                    }
+                  }}
+                />
+              )}
+              &nbsp;
+              <span onClick={() => setIsTitleEditing(true)}>U</span>
+              &nbsp;
+              <span onClick={() => deleteNote(note._id, user._id)}>
                 &times;
               </span>
             </li>
