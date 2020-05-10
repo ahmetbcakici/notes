@@ -20,5 +20,5 @@
 
 #sidebar ul li:hover {
     cursor: pointer;
-    background-color: tomato;
+    background-color: rgba(245, 245, 245, 0.644);
 }

@@ -16,7 +16,7 @@ body {
 }
 
 #text {
-    width: 90%;
+    width: 104%;
     height: 595px;
     overflow: scroll;
     background-color: #FFF;
@@ -31,7 +31,7 @@ body {
     padding-right: 10px;
     padding-top: 45px;
     padding-bottom: 34px;
-    background-image: url(https://static.tumblr.com/maopbtg/E9Bmgtoht/lines.png), url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+    background-image: url('../bg.jpg'), url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
     background-repeat: repeat-y, repeat;
     -webkit-border-radius: 12px;
     border-radius: 12px;
