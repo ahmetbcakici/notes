@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const {userID, noteID} = req.query;
   const {notes} = await User.findById(userID);
-  const note = notes.id(noteID)
+  const note = notes.id(noteID);
   res.send(note);
 });
 
@@ -21,11 +21,9 @@ router.get('/all', async (req, res) => {
 
 // POST request for /note endpoint
 router.post('/', async (req, res) => {
-  const {userID, title} = req.body;
+  const {userID} = req.body;
   const doc = await User.findById(userID);
-  doc.notes.push({
-    title,
-  });
+  doc.notes.push({});
   doc.save();
   res.send(doc.notes);
 });
@@ -34,12 +32,12 @@ router.post('/', async (req, res) => {
 router.patch('/', async (req, res) => {
   const {userID, noteID, title, content} = req.body;
   const doc = await User.findById(userID);
-  const note = doc.notes.id(noteID)
+  const note = doc.notes.id(noteID);
 
   // update if there is new title or content data
   note.title = title ? title : note.title;
   note.content = content ? content : note.content;
-  
+
   doc.save();
   res.send(doc.notes);
 });
@@ -48,7 +46,7 @@ router.patch('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   const {userID, noteID} = req.body;
   const doc = await User.findById(userID);
-  const note = doc.notes.id(noteID)
+  const note = doc.notes.id(noteID);
   note.remove();
   doc.save();
   res.send(doc.notes);

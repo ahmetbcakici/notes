@@ -1,20 +1,19 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import randomstring from 'randomstring';
 
+import sendEmailToVerification from '../utils/sendEmailToVerification';
 import User from '../models/user/user';
 
 const router = express.Router();
 
 // POST request for /register endpoint
 router.post('/register', async (req, res) => {
-  // get required fields to register from request body which has sent by client
   const {username, password, emailAddress} = req.body;
 
-  // hash variable represents that hashed form for our plain password
   const hash = await bcrypt.hash(password, 10);
 
-  // generate new user on db
   try {
     await User.create({
       username,
@@ -22,14 +21,25 @@ router.post('/register', async (req, res) => {
       emailAddress,
     });
 
-    return res.send();
+    const verificationCode = randomstring.generate(6);
+
+    const token = jwt.sign(verificationCode, process.env.JWT_SECRET_KEY);
+
+    await sendEmailToVerification(emailAddress, verificationCode);
+
+    return res.send(token);
   } catch ({code}) {
-    if (code === 11000) return res.status(401).send('This username or e-mail already registered!');
+    switch (code) {
+      case 11000:
+        return res
+          .status(401)
+          .send('This username or e-mail already registered!');
+      case 'EENVELOPE':
+        return res.status(401).send('Invalid e-mail address');
+      default:
+        return 'Something went wrong!';
+    }
   }
-
-  /* console.log(userGenerated) */
-
-  //res.send(userGenerated._id);
 });
 
 // POST request for /login endpoint
@@ -48,18 +58,27 @@ router.post('/login', async (req, res) => {
 
   // login success
   if (match) {
-    //return res.send(doc);
-    const token = await jwt.sign({user: doc}, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign({user: doc}, process.env.JWT_SECRET_KEY);
     return res.json({doc, token});
+  }
+});
+
+router.post('/confirmEmail', (req, res) => {
+  const {confirmCode, token} = req.body;
+  try {
+    const verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    if (verifyToken === confirmCode) return res.send('Correct');
+    return res.status(401).send('Incorrect Confirm Code!');
+  } catch (error) {
+    return res.status(401).send('Invalid Token!');
   }
 });
 
 // POST request for /auth endpoint
 router.post('/auth', async (req, res) => {
   const {token} = req.body;
-
   try {
-    const verifyToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const doc = await User.findById(verifyToken.user._id);
     return res.send(doc);
   } catch (error) {
