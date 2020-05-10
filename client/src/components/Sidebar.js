@@ -21,12 +21,14 @@ function Sidebar({
   const [isOpening, setIsOpening] = useState(true);
   const [editingNote, setEditingNote] = useState('');
   const [hoveringNote, setHoveringNote] = useState('');
+  const [currentlySelectedNote, setSelectedCurrentlyNote] = useState('');
 
   const editNoteInput = useRef(null);
 
   // show first note in opening
   useEffect(() => {
     if (notes.length > 0 && isOpening) {
+      setSelectedCurrentlyNote(notes[0]._id);
       handleSelectedNote(notes[0]._id, user._id);
       setIsOpening(false);
     }
@@ -64,7 +66,16 @@ function Sidebar({
           {notes.map((note) => (
             <li
               key={note._id}
-              onClick={() => handleSelectedNote(note._id, user._id)}
+              onClick={() => {
+                handleSelectedNote(note._id, user._id);
+                setSelectedCurrentlyNote(note._id);
+              }}
+              style={{
+                background:
+                  note._id === currentlySelectedNote
+                    ? 'rgba(245, 245, 245, 0.644)'
+                    : '',
+              }}
               onMouseEnter={() => setHoveringNote(note._id)}
               onMouseLeave={() => setHoveringNote('')}
             >
