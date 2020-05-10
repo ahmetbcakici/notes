@@ -1,0 +1,83 @@
+.toastr-container {
+    position: fixed;
+    z-index: 999999;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity .5s ease-in;
+}
+
+.toastr-content {
+    padding: 15px 15px 15px 50px;
+    width: 300px;
+    box-shadow: 0 0 12px #999999;
+    overflow: hidden;
+    border-radius: 3px;
+    color: #FFFFFF;
+    opacity: 0.9;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.toastr-info {
+    background-color: #00CFE8;
+}
+
+.toastr-error {
+    background-color: #EA5455;
+}
+
+.toastr-warning {
+    background-color: #FF9F43;
+}
+
+.toastr-success {
+    background-color: #28C76F;
+}
+
+.toastr-tr {
+    right: 10px;
+    top: 10px;
+}
+
+.toastr-tl {
+    left: 10px;
+    top: 10px;
+}
+
+.toastr-tc {
+    transition: opacity 1s ease-in;
+}
+
+.toastr-br {
+    right: 10px;
+    bottom: 10px;
+}
+
+.toastr-bl {
+    left: 10px;
+    bottom: 10px;
+}
+
+.toastr-bc {
+    width: 100%;
+    bottom: 10px;
+}
+
+.toastr-tc>.toastr-content,
+.toastr-bc>.toastr-content {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.toast-title {
+    font-weight: 700;
+}
+
+.toast-message {
+    font-weight: 400;
+}
+
+.toastr-hidden {
+    opacity: 0;
+    transition: opacity .5s ease-in;
+}
