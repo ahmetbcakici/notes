@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useRef} from 'react';
 import {connect} from 'react-redux';
 
 import {
@@ -21,6 +21,8 @@ function Sidebar({
   const [isOpening, setIsOpening] = useState(true);
   const [editingNote, setEditingNote] = useState('');
 
+  const editNoteInput = useRef(null);
+
   // show first note in opening
   useEffect(() => {
     if (notes.length > 0 && isOpening) {
@@ -33,11 +35,29 @@ function Sidebar({
     getNotes(user._id);
   }, [getNotes, user]);
 
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    function handleClickOutside(event) {
+      if (editNoteInput.current && !editNoteInput.current.contains(event.target)) {
+        setEditingNote(null)
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editNoteInput]);
+
   return (
     <div id="sidebar">
       {notes && (
         <ul>
-          {notes.map((note) => (
+          {notes.map((note,index) => (
             <li
               key={note._id}
               onClick={() => handleSelectedNote(note._id, user._id)}
@@ -46,6 +66,7 @@ function Sidebar({
               {note._id === editingNote && (
                 <input
                   type="text"
+                  ref={editNoteInput}
                   placeholder={note.title}
                   onKeyUp={({keyCode, target}) => {
                     //setNewTitle(target.value);
