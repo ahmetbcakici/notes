@@ -46,10 +46,13 @@ router.patch('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   const {userID, noteID} = req.body;
   const doc = await User.findById(userID);
-  const note = doc.notes.id(noteID);
-  note.remove();
-  doc.save();
-  res.send(doc.notes);
+  const {notes} = doc;
+  if (notes.length > 1) {
+    const note = notes.id(noteID);
+    note.remove();
+    doc.save();
+  }
+  res.send(notes);
 });
 
 export default router;
