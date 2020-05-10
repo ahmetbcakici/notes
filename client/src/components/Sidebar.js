@@ -1,4 +1,4 @@
-import React, {useEffect, useState,useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {connect} from 'react-redux';
 
 import {
@@ -20,6 +20,7 @@ function Sidebar({
 }) {
   const [isOpening, setIsOpening] = useState(true);
   const [editingNote, setEditingNote] = useState('');
+  const [hoveringNote, setHoveringNote] = useState('');
 
   const editNoteInput = useRef(null);
 
@@ -40,16 +41,19 @@ function Sidebar({
      * Alert if clicked on outside of element
      */
     function handleClickOutside(event) {
-      if (editNoteInput.current && !editNoteInput.current.contains(event.target)) {
-        setEditingNote(null)
+      if (
+        editNoteInput.current &&
+        !editNoteInput.current.contains(event.target)
+      ) {
+        setEditingNote(null);
       }
     }
 
     // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
       // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [editNoteInput]);
 
@@ -57,10 +61,12 @@ function Sidebar({
     <div id="sidebar">
       {notes && (
         <ul>
-          {notes.map((note,index) => (
+          {notes.map((note) => (
             <li
               key={note._id}
               onClick={() => handleSelectedNote(note._id, user._id)}
+              onMouseEnter={() => setHoveringNote(note._id)}
+              onMouseLeave={() => setHoveringNote('')}
             >
               {note._id !== editingNote && <span>{note.title}</span>}
               {note._id === editingNote && (
@@ -69,20 +75,24 @@ function Sidebar({
                   ref={editNoteInput}
                   placeholder={note.title}
                   onKeyUp={({keyCode, target}) => {
-                    //setNewTitle(target.value);
-                    if (keyCode === 13){
+                    if (keyCode === 13) {
                       updateNote(note._id, user._id, target.value);
-                      setEditingNote(null)
+                      setEditingNote(null);
                     }
                   }}
                 />
               )}
-              &nbsp;
-              <span onClick={() => setEditingNote(note._id)}>U</span>
-              &nbsp;
-              <span onClick={() => deleteNote(note._id, user._id)}>
-                &times;
-              </span>
+              {note._id === hoveringNote && (
+                <>
+                  {' '}
+                  &nbsp;
+                  <span onClick={() => setEditingNote(note._id)}>U</span>
+                  &nbsp;
+                  <span onClick={() => deleteNote(note._id, user._id)}>
+                    &times;
+                  </span>
+                </>
+              )}
             </li>
           ))}
         </ul>
