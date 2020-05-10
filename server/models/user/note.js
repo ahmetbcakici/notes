@@ -4,9 +4,12 @@ const Schema = mongoose.Schema;
 const NotesSchema = new Schema({
   title: {
     type: String,
-    required: true,
+    default:'Note Title',
   },
-  content: String,
+  content:{
+    type:String,
+    default:'Take a note here..'
+  }
 });
 
 export default NotesSchema

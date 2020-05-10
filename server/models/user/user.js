@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import NotesSchema from './notes';
+import NotesSchema from './note';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -17,7 +17,10 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  notes: [NotesSchema],
+  notes: {
+    type:[NotesSchema],
+    default:{title:'Sample Note',content:'This is a sample note!'}
+  },
 });
 
 export default mongoose.model('user', UserSchema);
