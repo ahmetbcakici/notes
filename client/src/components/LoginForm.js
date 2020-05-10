@@ -9,7 +9,7 @@ function LoginForm({login,loginState}) {
 
   const formSubmit = (e) => {
     e.preventDefault();
-    login({username, password});
+    login(username, password);
   };
 
   return (

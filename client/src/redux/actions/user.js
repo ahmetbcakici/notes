@@ -2,11 +2,13 @@ import axios from 'axios';
 
 import {API_URL} from '../../config';
 
-export const login = (credentials) => {
+export const login = (username, password) => {
   return async (dispatch) => {
-    console.log('log actio');
     try {
-      const {data} = await axios.post(`${API_URL}/user/login`, credentials);
+      const {data} = await axios.post(`${API_URL}/user/login`, {
+        username,
+        password,
+      });
       localStorage.setItem('jwt', data.token);
       dispatch({type: 'LOGIN', payload: data.doc});
     } catch ({response}) {
@@ -17,20 +19,39 @@ export const login = (credentials) => {
 };
 
 export const register = (emailAddress, password, username) => {
+  // ABC_NOTE : PLEASE DO NOT REGISTER USER WITHOUT MAIL VERIFICATION!!!
   return async (dispatch) => {
     try {
-      await axios.post(`${API_URL}/user/register`, {
+      const {data} = await axios.post(`${API_URL}/user/register`, {
         emailAddress,
         password,
         username,
       });
-      dispatch(login({password, username}));
+      localStorage.setItem('email_code', data);
+      // dispatch(login({password, username}));
     } catch ({response}) {
       const {data} = response;
       dispatch({type: 'LOGIN', payload: data});
     }
   };
 };
+
+export const confirmEmail = (confirmCode, token) => (dispatch) =>
+  new Promise(async (resolve) => {
+    try {
+      const {data} = await axios.post(`${API_URL}/user/confirmEmail`, {
+        confirmCode,
+        token,
+      });
+
+      return resolve(data);
+    } catch (err) {
+      console.log(err);
+      //const {data} = response;
+      const data = err.response.data;
+      dispatch({type: 'LOGIN', payload: data});
+    }
+  });
 
 export const auth = (token) => {
   return async (dispatch) => {

@@ -2,17 +2,21 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
 import {register} from '../redux/actions/user';
+import VerificationCodeForm from './VerificationCodeForm';
 
 function RegisterForm({register, loginState}) {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [verificationForm, setVerificationForm] = useState(false);
 
   const formSubmit = (e) => {
     e.preventDefault();
     register(emailAddress, password, username);
+    setVerificationForm(true);
   };
 
+  if (verificationForm) return <VerificationCodeForm credentials={{username,password}}/>;
   return (
     <div style={{textAlign: 'center'}}>
       <br />
