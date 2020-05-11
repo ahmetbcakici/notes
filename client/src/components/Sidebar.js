@@ -1,6 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {connect} from 'react-redux';
 
+import pen from '../style/image/icon/pen.png'
+import trash from '../style/image/icon/trash.png'
 import {
   deleteNote,
   getNotes,
@@ -59,6 +61,10 @@ function Sidebar({
     };
   }, [editNoteInput]);
 
+  useEffect(() => {
+    console.log(currentlySelectedNote);
+  }, [currentlySelectedNote]);
+
   return (
     <div id="sidebar">
       {notes && (
@@ -94,15 +100,20 @@ function Sidebar({
                 />
               )}
               {note._id === hoveringNote && (
-                <>
+                <div style={{textAlign:'right'}}>
                   {' '}
                   &nbsp;
-                  <span onClick={() => setEditingNote(note._id)}>U</span>
-                  &nbsp;
-                  <span onClick={() => deleteNote(note._id, user._id)}>
-                    &times;
+                  <span onClick={() => setEditingNote(note._id)}>
+                    <img src={pen} width={15} alt=""/>
                   </span>
-                </>
+                  &nbsp;
+                  <span onClick={() => {
+                    setSelectedCurrentlyNote(notes[0]._id)
+                    deleteNote(note._id, user._id)
+                  }}>
+                     <img src={trash} width={15} alt=""/>
+                  </span>
+                </div>
               )}
             </li>
           ))}

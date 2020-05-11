@@ -1,19 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 
 import {postNote} from '../redux/actions/note';
+import plus from '../style/image/icon/plus.png'
+import '../style/NewNote.css';
 
 function NewNote({postNote, user}) {
-  const [noteName, setNoteName] = useState('');
-
   return (
     <div>
-      <input
-        type="text"
-        value={noteName}
-        onChange={({target}) => setNoteName(target.value)}
-      />
-      <button onClick={() => postNote(noteName,user._id)}>ADD NEW NOTE</button>
+      <button className="postNote" onClick={() => postNote(user._id)}>
+        <img src={plus} className="invert" width={15} alt="plus icon"/>
+      </button>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import cx from 'classnames';
 
 import '../style/Toastr.css';
@@ -12,21 +12,7 @@ const Toastr = ({
   position = 'top-right',
   duration = 3000,
 }) => {
-  const [visible, setVisible] = useState(false);
 
-  const onShow = () => {
-    setVisible(true);
-
-    if (duration > 0) {
-      setTimeout(() => {
-        setVisible(false);
-      }, duration);
-    }
-  };
-
-  const onHide = () => {
-    setVisible(false);
-  };
 
   const containerClass = useMemo(
     () =>

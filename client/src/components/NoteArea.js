@@ -52,7 +52,6 @@ function NoteArea({selectedNote, updateNote, user}) {
       ></Toastr>
       <textarea
         id="text"
-        /* value={`${selectedNote.title}\n\n${noteContent}`} */
         value={noteContent}
         onChange={(e) => editValue(e.currentTarget.value)}
       ></textarea>

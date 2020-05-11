@@ -5,13 +5,14 @@ import {register} from '../redux/actions/user';
 import VerificationCodeForm from './VerificationCodeForm';
 
 function RegisterForm({register, loginState}) {
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');  
+  const [emailAddress, setEmailAddress] = useState('');
   const [verificationForm, setVerificationForm] = useState(false);
 
   const formSubmit = (e) => {
     e.preventDefault();
+    if (!username || !password || !emailAddress) return;
     register(emailAddress, password, username);
     setVerificationForm(true);
   };
@@ -29,7 +30,7 @@ function RegisterForm({register, loginState}) {
         />
         <br />
         <input
-          type="text"
+          type="email"
           placeholder="e-mail address"
           value={emailAddress}
           onChange={({target}) => setEmailAddress(target.value)}
@@ -37,7 +38,7 @@ function RegisterForm({register, loginState}) {
         <br />
         <input
           type="password"
-          placeholder="pass"
+          placeholder="password"
           value={password}
           onChange={({target}) => setPassword(target.value)}
         />

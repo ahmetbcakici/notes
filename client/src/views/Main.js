@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {auth} from '../redux/actions/user';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import '../style/Main.css'
 
 function Main({auth, user}) {
   const [isRegisterForm, setIsRegisterForm] = useState(true);
@@ -19,12 +20,12 @@ function Main({auth, user}) {
 
   if (user.username) return <Redirect to="/app" />;
   return (
-    <div style={{textAlign: 'center'}}>
+    <div id="main">
       {isRegisterForm ? <RegisterForm /> : <LoginForm />}
       <br />
-      <button onClick={() => setIsRegisterForm(!isRegisterForm)}>
-        FORM CHANGE
-      </button>
+      <small onClick={() => setIsRegisterForm(!isRegisterForm)}>
+        {isRegisterForm ? 'if you have account' : 'if you have no account'}
+      </small>
     </div>
   );
 }

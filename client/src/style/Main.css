@@ -1,0 +1,33 @@
+#main {
+    text-align: center;
+    margin-top: 177px;
+}
+
+#main small {
+    color: rgb(128, 125, 125);
+}
+
+#main small:hover {
+    cursor: pointer;
+}
+
+#main input {
+    padding: 7px;
+    border-radius: 35px;
+    margin-bottom: 15px;
+    transition: all .2s;
+}
+
+#main input[type="submit"] {
+    padding: 9px;
+}
+
+#main input[type="submit"]:hover {
+    background-color: darkslategrey;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+#main h1 {
+    color: lavenderblush
+}

@@ -22,3 +22,8 @@
     cursor: pointer;
     background-color: rgba(245, 245, 245, 0.644);
 }
+
+#sidebar input {
+    padding: 7px;
+    border-radius: 35px;
+}

@@ -2,6 +2,13 @@ import axios from 'axios';
 
 import {API_URL} from '../../config';
 
+const clearAlert =  (dispatch) => {
+  setTimeout(() => {
+    console.log("l")
+    dispatch({type: 'LOGIN', payload: ''});
+  },1000)
+}
+
 export const login = (username, password) => {
   return async (dispatch) => {
     try {
@@ -14,6 +21,7 @@ export const login = (username, password) => {
     } catch ({response}) {
       const {data /*, status */} = response;
       dispatch({type: 'LOGIN', payload: data});
+      clearAlert(dispatch)
     }
   };
 };
@@ -28,10 +36,10 @@ export const register = (emailAddress, password, username) => {
         username,
       });
       localStorage.setItem('email_code', data);
-      // dispatch(login({password, username}));
     } catch ({response}) {
       const {data} = response;
       dispatch({type: 'LOGIN', payload: data});
+      clearAlert(dispatch)
     }
   };
 };
@@ -46,10 +54,9 @@ export const confirmEmail = (confirmCode, token) => (dispatch) =>
 
       return resolve(data);
     } catch (err) {
-      console.log(err);
-      //const {data} = response;
       const data = err.response.data;
       dispatch({type: 'LOGIN', payload: data});
+      clearAlert(dispatch)
     }
   });
 
@@ -61,8 +68,9 @@ export const auth = (token) => {
       });
       dispatch({type: 'AUTH', payload: data});
     } catch ({response}) {
-      const {data /*, status */} = response;
+      const {data} = response;
       dispatch({type: 'AUTH', payload: data});
+      clearAlert(dispatch)
     }
   };
 };

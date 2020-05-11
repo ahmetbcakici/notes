@@ -9,6 +9,7 @@ function VerificationCodeForm({credentials, confirmEmail, login, loginState}) {
 
   const formSubmit = async (e) => {
     e.preventDefault();
+    if (!verificationCode) return;
     const {username, password} = credentials;
     const token = localStorage.getItem('email_code');
     await confirmEmail(verificationCode, token);

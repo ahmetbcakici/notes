@@ -1,4 +1,21 @@
 .postNote {
+    margin-top: 1rem;
     padding: 5px;
-    background-color: ivory;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    width: 100%;
+    outline: none !important;
+}
+
+.postNote:focus {
+    outline: none;
+}
+
+.postNote::-moz-focus-inner {
+    border: 0;
+}
+
+.invert {
+    filter: invert(100%);
 }
