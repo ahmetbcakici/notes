@@ -4,7 +4,6 @@ import {API_URL} from '../../config';
 
 const clearAlert =  (dispatch) => {
   setTimeout(() => {
-    console.log("l")
     dispatch({type: 'LOGIN', payload: ''});
   },1000)
 }

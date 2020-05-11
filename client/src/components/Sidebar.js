@@ -60,11 +60,7 @@ function Sidebar({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [editNoteInput]);
-
-  useEffect(() => {
-    console.log(currentlySelectedNote);
-  }, [currentlySelectedNote]);
-
+  
   return (
     <div id="sidebar">
       {notes && (
