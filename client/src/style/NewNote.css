@@ -19,3 +19,8 @@
 .invert {
     filter: invert(100%);
 }
+
+.invert:hover {
+    width: 25px;
+    cursor: pointer;
+}

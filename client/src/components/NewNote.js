@@ -9,7 +9,7 @@ function NewNote({postNote, user}) {
   return (
     <div>
       <button className="postNote" onClick={() => postNote(user._id)}>
-        <img src={plus} className="invert" width={15} alt="plus icon"/>
+        <img src={plus} className="invert" width={20} alt="plus icon"/>
       </button>
     </div>
   );
