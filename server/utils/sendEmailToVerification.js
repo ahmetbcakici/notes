@@ -17,8 +17,6 @@ export default (emailTo, verificationCode) =>
       text: `Here is your confirm code: ${verificationCode}`,
     };
 
-    // ABC_NOTE: you can use here async await instead of callback here again
-
     try {
       await emailTransfer.sendMail(emailInfo);
       resolve('sccs');

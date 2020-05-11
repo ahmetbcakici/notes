@@ -8,7 +8,6 @@ import User from '../models/user/user';
 
 const router = express.Router();
 
-// POST request for /register endpoint
 router.post('/register', async (req, res) => {
   const {username, password, emailAddress} = req.body;
 
@@ -42,21 +41,16 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// POST request for /login endpoint
 router.post('/login', async (req, res) => {
   const {username, password} = req.body;
 
-  // find user by username came from client
   const doc = await User.findOne({username});
   if (!doc) return res.status(404).send('User not found'); // there is no registered user with the username
 
-  // compare operation between hashed password and plain text password came from client
   const match = await bcrypt.compare(password, doc.password);
 
-  // password incorrect
   if (!match) return res.status(401).send('Password is incorrect!');
 
-  // login success
   if (match) {
     const token = jwt.sign({user: doc}, process.env.JWT_SECRET_KEY);
     return res.json({doc, token});
@@ -74,7 +68,6 @@ router.post('/confirmEmail', (req, res) => {
   }
 });
 
-// POST request for /auth endpoint
 router.post('/auth', async (req, res) => {
   const {token} = req.body;
   try {
@@ -86,7 +79,6 @@ router.post('/auth', async (req, res) => {
   }
 });
 
-// GET request for /user endpoint
 router.get('/:id', async (req, res) => {
   const userID = req.params.id;
   const doc = await User.findById(userID);

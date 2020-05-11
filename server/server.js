@@ -10,6 +10,8 @@ import api from './routes';
 
 const app = express();
 const PORT = 3333 || process.env.PORT;
+
+/* Package configurations */
 app.use(bodyParser.json());
 app.use(cors());
 dotenv.config();
